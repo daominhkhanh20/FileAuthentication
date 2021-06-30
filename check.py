@@ -44,10 +44,10 @@ class Security:
 
         return True
 
-check=Security()
-if check.check_file('/home/daominhkhanh/Documents/ATTT/Authentication/VideoConcat/kk.mp4','birthday_concat.mp4'):
-    print("Success")
-else:
-    print("Error")
+# check=Security()
+# if check.check_file('/home/daominhkhanh/Documents/ATTT/Authentication/VideoConcat/kk.mp4','birthday_concat.mp4'):
+#     print("Success")
+# else:
+#     print("Error")
 
         
