@@ -9,11 +9,11 @@ class Security:
         self.hash=Hash()
         self.chunk_size=self.hash.size_block+32
     
-    def check(self,url,h0):
+    def download(self,url,h0):
         response=requests.get(url,stream=True)
         hash_code_block=h0
         for i,chunk in enumerate(response.iter_content(chunk_size=self.chunk_size)):
-            if(hash_code_block==self.hash(chunk)):
+            if(hash_code_block==self.hash.hash_code(chunk)):
                 hash_code_block=chunk[-32:]
             else:
                 print("Error file")
@@ -28,7 +28,6 @@ class Security:
         print('Time check')
         n_blocks=len(data)//self.chunk_size+1
         hash_code_block=h0
-        chunk=None
         for i in range(n_blocks):
             temp=data[self.chunk_size*i:min(len(data),self.chunk_size*(i+1))]
             if hash_code_block==self.hash.hash_code(temp):
