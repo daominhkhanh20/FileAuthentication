@@ -16,7 +16,7 @@ class Hash:
             data=file.read()
         
         n_block=len(data)//self.size_block +1
-        video_data=None
+        video_data=[]
         hash_code_block=None
         for i in range(n_block,0,-1):
             temp=data[self.size_block*(i-1):min(len(data),self.size_block*i)]
@@ -25,16 +25,18 @@ class Hash:
             else:
                 hash_code_block_new=self.hash_code(temp+hash_code_block)
                 
-            if video_data is None:
-                video_data=temp
+            if len(video_data)==0:
+                video_data.append(temp)
             else:
-                video_data=temp+hash_code_block+video_data
+                video_data.append(temp+hash_code_block)
                 hash_code_block=hash_code_block_new
 
         file_name=path_video[path_video.rfind('/')+1:]
         name=file_name[:file_name.find(".")]
         file_name=name+'_concat.mp4'
         new_path='/home/daominhkhanh/Documents/ATTT/Authentication/VideoConcat/'+file_name
+        video_data.reverse()
+        video_data=b''.join(video_data)
         with open(new_path,'wb') as file:
             file.write(video_data)
         

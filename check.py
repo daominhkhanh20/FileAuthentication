@@ -28,25 +28,25 @@ class Security:
         print('Time check')
         n_blocks=len(data)//self.chunk_size+1
         hash_code_block=h0
+        chunk=[]
         for i in range(n_blocks):
             temp=data[self.chunk_size*i:min(len(data),self.chunk_size*(i+1))]
             if hash_code_block==self.hash.hash_code(temp):
                 hash_code_block=temp[-32:]
-                # if chunk is None:
-                #     chunk=temp[:1024]
-                # else:
-                #     chunk=chunk+temp[:1024]
+                chunk.append(temp[:1024])
             else:
                 return False
-        # with open('/home/daominhkhanh/Documents/ATTT/Authentication/VideoDownload/{}'.format(file_name),'wb') as file:
-        #     file.write(chunk)
+        
+        chunk=b''.join(chunk)
+        with open('/home/daominhkhanh/Documents/ATTT/Authentication/VideoDownload/{}'.format(file_name),'wb') as file:
+            file.write(chunk)
 
         return True
 
-# check=Security()
-# if check.check_file('/home/daominhkhanh/Documents/ATTT/Authentication/VideoConcat/kk.mp4','birthday_concat.mp4'):
-#     print("Success")
-# else:
-#     print("Error")
+check=Security()
+if check.check_file('/home/daominhkhanh/Documents/ATTT/Authentication/VideoConcat/birthday_concat.mp4','birthday_concat.mp4'):
+    print("Success")
+else:
+    print("Error")
 
         
