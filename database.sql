@@ -1,3 +1,4 @@
+
 CREATE database AuthenticationFile;
 USE AuthenticationFile;
 CREATE TABLE InformationFile(

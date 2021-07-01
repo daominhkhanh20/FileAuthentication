@@ -1,8 +1,17 @@
 from mysql.connector.constants import ServerCmd
-import requests 
+import requests
 from hash import Hash
 from database import Database
 import time 
+import argparse
+
+parser=argparse.ArgumentParser()
+parser.add_argument('--url',type=str,required=False,help='link to download')
+parser.add_argument('--path_file',type=str,required=False,help='path to file concat')
+parser.add_argument('--file_name',type=str,required=False)
+parser.add_argument('--file_name_saved',type=str,required=False)
+arg=parser.parse_args()
+
 class Security:
     def __init__(self):
         self.database=Database()
@@ -44,17 +53,23 @@ class Security:
 
         return True
 
-check=Security()
-# if check.check_file('/home/daominhkhanh/Documents/ATTT/Authentication/VideoConcat/video_concat.mp4','video_concat.mp4'):
-#     print("Success")
-# else:
-#     print("Error")
-start_time=time.time()
-h0=check.database.get_h0('video_concat.mp4')
-if check.download('https://dl.dropboxusercontent.com/s/tvhxrghpbrv94qr/video_concat.mp4?dl=0',h0) is True:
-    print("Success")
-else:
-    print("Failed")
-print(f"Time:{time.time()-start_time}")
+if __name__=='__main__':
+    check=Security()
+    start_time=time.time()
+    if arg.path_file is not None:
+        if check.check_file(arg.path_file,arg.file_name_saved):
+            print("Success")
+        else:
+            print("Error")
+    elif arg.url is not None:
+        h0=check.database.get_h0(arg.file_name)
+        if check.download(arg.url,h0) is True:
+            print("Success")
+        else:
+            print("Failed")
+    print(f"Time:{time.time()-start_time}")
 
-        
+'''
+python3 check.py --url 'https://dl.dropboxusercontent.com/s/tvhxrghpbrv94qr/video_concat.mp4?dl=0' --file_name 'video_concat.mp4'
+python3 check.py --path_file '/home/daominhkhanh/Documents/ATTT/Authentication/VideoConcat/birthday_concat.mp4' --file_name_saved 'video.mp4'
+'''
