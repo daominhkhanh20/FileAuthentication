@@ -13,3 +13,4 @@ insert into InformationFile(file_name,file_path) values('cc.txt','/home/daominhk
 update InformationFile Set h_0="kk" where file_name='kk.txt';
 DELETE FROM InformationFile where file_name='birthday_concat.mp4';
 */
+DELETE FROM InformationFile where file_name='birthday_concat.mp4';

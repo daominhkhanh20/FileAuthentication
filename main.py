@@ -1,14 +1,15 @@
 import requests
 import os 
-url="https://dl.dropboxusercontent.com/s/5ahdou3su4ubsgw/birthday.mp4?dl=0"
+url="https://drive.google.com/uc?export=download&id=1uhtGwqLceXQzCD_kR0BcnrNIgB4M8ZL4"
 response=requests.get(url,stream=True)
 data_file=open('/home/daominhkhanh/Documents/ATTT/Authentication/video5.mp4','wb')
-for chunk in response.iter_content(chunk_size=2048):
-    temp=os.urandom(100)
-    chunk=chunk+temp
-    print(len(chunk))
+temp=0
+n_chunk=0
+for chunk in response.iter_content(chunk_size=1024+32):
     data_file.write(chunk)
-
-
+    temp+=len(chunk)
+    n_chunk+=1
+print(n_chunk)
+print(temp)
 data_file.close()
 
