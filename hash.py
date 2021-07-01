@@ -2,7 +2,7 @@ from Crypto.Hash import SHA256
 from database import Database
 import time 
 class Hash:
-    def __init__(self,size_block=1024):
+    def __init__(self,size_block=992):
         self.size_block=size_block
 
     def hash_code(self,message):
