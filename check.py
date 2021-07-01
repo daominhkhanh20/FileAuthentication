@@ -2,7 +2,7 @@ from mysql.connector.constants import ServerCmd
 import requests 
 from hash import Hash
 from database import Database
-
+import time 
 class Security:
     def __init__(self):
         self.database=Database()
@@ -22,7 +22,8 @@ class Security:
                 return False
         return True
     
-    def check_file(self,path_file,file_name):
+    def check_file(self,path_file,file_name_saved):
+        file_name=path_file[path_file.rfind('/')+1:]
         h0=self.database.get_h0(file_name)
         with open(path_file,'rb') as file:
             data=file.read()
@@ -37,22 +38,23 @@ class Security:
             else:
                 return False
         
-        # chunk=b''.join(chunk)
-        # with open('/home/daominhkhanh/Documents/ATTT/Authentication/VideoDownload/{}'.format(file_name),'wb') as file:
-        #     file.write(chunk)
+        chunk=b''.join(chunk)
+        with open('/home/daominhkhanh/Documents/ATTT/Authentication/VideoDownload/{}'.format(file_name_saved),'wb') as file:
+            file.write(chunk)
 
         return True
 
 check=Security()
-# if check.check_file('/home/daominhkhanh/Documents/ATTT/Authentication/VideoConcat/birthday_concat.mp4','birthday_concat.mp4'):
+# if check.check_file('/home/daominhkhanh/Documents/ATTT/Authentication/VideoConcat/video_concat.mp4','video_concat.mp4'):
 #     print("Success")
 # else:
 #     print("Error")
-
-# h0=check.database.get_h0('birthday_concat.mp4')
-# if check.download('https://drive.google.com/uc?export=download&id=1z8fpNusfkMVRSQ5XnIjeRj45O0r52fQy',h0) is True:
-#     print("Success")
-# else:
-#     print("Failed")
+start_time=time.time()
+h0=check.database.get_h0('video_concat.mp4')
+if check.download('https://dl.dropboxusercontent.com/s/tvhxrghpbrv94qr/video_concat.mp4?dl=0',h0) is True:
+    print("Success")
+else:
+    print("Failed")
+print(f"Time:{time.time()-start_time}")
 
         
