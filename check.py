@@ -24,9 +24,10 @@ class Security:
         for i,chunk in enumerate(response.iter_content(chunk_size=self.chunk_size)):
             if(hash_code_block==self.hash.hash_code(chunk)):
                 hash_code_block=chunk[-32:]
+                temp=chunk[:-32]
             else:
                 print("Error file")
-                print(chunk)
+                #print(chunk)
                 print(i)
                 return False
         return True
@@ -47,9 +48,9 @@ class Security:
             else:
                 return False
         
-        chunk=b''.join(chunk)
-        with open('/home/daominhkhanh/Documents/ATTT/Authentication/VideoDownload/{}'.format(file_name_saved),'wb') as file:
-            file.write(chunk)
+        # chunk=b''.join(chunk)
+        # with open('/home/daominhkhanh/Documents/ATTT/Authentication/VideoDownload/{}'.format(file_name_saved),'wb') as file:
+        #     file.write(chunk)
 
         return True
 
