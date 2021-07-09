@@ -21,6 +21,7 @@ class Security:
     def download(self,url,h0):
         response=requests.get(url,stream=True)
         hash_code_block=h0
+        print(h0)
         for i,chunk in enumerate(response.iter_content(chunk_size=self.chunk_size)):
             if(hash_code_block==self.hash.hash_code(chunk)):
                 hash_code_block=chunk[-32:]
@@ -71,6 +72,7 @@ if __name__=='__main__':
     print(f"Time:{time.time()-start_time}")
 
 '''
-python3 check.py --url 'https://dl.dropboxusercontent.com/s/tvhxrghpbrv94qr/video_concat.mp4?dl=0' --file_name 'video_concat.mp4'
+python3 check1.py --url 'https://dl.dropboxusercontent.com/s/tvhxrghpbrv94qr/video_concat.mp4?dl=0' --file_name 'video_concat.mp4'
 python3 check.py --path_file '/home/daominhkhanh/Documents/ATTT/Authentication/VideoConcat/birthday_concat.mp4' --file_name_saved 'video.mp4'
 '''
+#https://dl.dropboxusercontent.com/s/ermco3yn3gtece4/birthday_concat.mp4?dl=0
