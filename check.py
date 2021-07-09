@@ -12,6 +12,21 @@ parser.add_argument('--file_name',type=str,required=False)
 parser.add_argument('--file_name_saved',type=str,required=False)
 arg=parser.parse_args()
 
+class show_video(threading.Thread):
+    def __init__(self, path_file):
+        threading.Thread.__init__(self)
+        self.path_file = path_file
+
+    def run(self):
+        media = vlc.MediaPlayer('/home/winner/Desktop/FileAuthentication/a.mp4')
+        media.play()
+#         while (True):
+#             time.sleep(1)
+#             if not media.is_playing():
+#                 media.stop()
+#                 break
+
+
 class Security:
     def __init__(self):
         self.database=Database()
@@ -22,10 +37,18 @@ class Security:
         response=requests.get(url,stream=True)
         hash_code_block=h0
         print(h0)
+        fw = open('/home/winner/Desktop/FileAuthentication/a.mp4', 'wb')
         for i,chunk in enumerate(response.iter_content(chunk_size=self.chunk_size)):
             if(hash_code_block==self.hash.hash_code(chunk)):
+                chunks = []
+                chunks.append(chunk[:992])
+                chunk_block = b''.join(chunks)
+                fw.write(chunk_block)
+                #fw.close()
+                if i == 2000:
+                    thread = show_video('/home/winner/Desktop/FileAuthentication/a.mp4')
+                    thread.start()
                 hash_code_block=chunk[-32:]
-                temp=chunk[:-32]
             else:
                 print("Error file")
                 #print(chunk)
