@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <title>Video Downloader</title>
+    </header>
+    <body>
+        <!-- Boostrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.css">
+        
+        <!-- Header -->
+        <div class="jumbotron text-center">
+            <h1>VIDEO DOWNLOADER</h1>
+        </div>
+    
+        <!-- Video list -->
+        <table class="table table-success table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Preview</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for video in videos %}
+                <tr>
+                    <th scope="row">{{video.id}}</th>
+                    <td>{{video.name}}</td>
+                    <td><a href="https://safe-cove-48036.herokuapp.com/video?video_name={{video.name}}">Link</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+    </body>
+</html>
