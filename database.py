@@ -64,6 +64,7 @@ class Database:
             print("Closed success")
 
 # db=Database()
+# print(db.get_h0('birthday_concat.mp4'))
 # temp=os.urandom(10)
 # print(temp)
 # db.insert_h0(os.urandom(10),'cc.txt')

@@ -2,7 +2,7 @@
 import requests
 
 #import test
-from hash import Hash
+from hash import Hash,ElgamalCrypto
 #from database import Database
 import time
 import argparse
@@ -24,13 +24,13 @@ class show_video(threading.Thread):
         self.path_file = path_file
 
     def run(self):
-        media = vlc.MediaPlayer('/home/winner/Desktop/FileAuthentication/a.mp4')
+        media = vlc.MediaPlayer('/home/daominhkhanh/Documents/ATTT/Authentication/a.mp4')
         media.play()
-        while (True):
-            time.sleep(1)
-            if not media.is_playing():
-                media.stop()
-                break
+        # while (True):
+        #     time.sleep(1)
+        #     if not media.is_playing():
+        #         media.stop()
+        #         break
 
 
 class Security:
@@ -38,12 +38,19 @@ class Security:
         #self.database=Database()
         self.hash = Hash()
         self.chunk_size = self.hash.size_block+32
+        self.elgama=ElgamalCrypto()
     
-    def download(self,url,h0):
-        response=requests.get(url,stream=True)
+    def download(self,url,public_key,private_key):
         hash_code_block=h0
         print(h0)
-        fw = open('/home/winner/Desktop/FileAuthentication/a.mp4', 'wb')
+        url1=url+'public_key='+public_key
+        h0_encode=requests.get(url1,stream=True)
+        h0=self.elgama.decode(h0_encode,private_key)
+        h0=bytes(h0)
+        
+        hash_code_block=h0
+        response=requests.get(url,stream=True)
+        fw = open('/home/daominhkhanh/Documents/ATTT/Authentication/a.mp4', 'wb')
         for i,chunk in enumerate(response.iter_content(chunk_size=self.chunk_size)):
             print(i)
             if hash_code_block != self.hash.hash_code(chunk):
@@ -54,12 +61,11 @@ class Security:
             else:
                 chunks = []
                 chunks.append(chunk[:992])
-                # ADD TO PLAY VIDEO ith-block
                 chunk_block = b''.join(chunks)
                 fw.write(chunk_block)
                 #fw.close()
-                if i == 5000:
-                    thread = show_video('/home/winner/Desktop/FileAuthentication/a.mp4')
+                if i == 2000:
+                    thread = show_video('/home/daominhkhanh/Documents/ATTT/Authentication/a.mp4')
                     thread.start()
                 hash_code_block=chunk[-32:]
         return True
@@ -112,7 +118,7 @@ if __name__ == '__main__':
             print("Success")
         else:
             print("Failed")
-    print(f"Time:{time.time()-start_time}")
+    #print(f"Time:{time.time()-start_time}")
 
 '''
 python3 check.py --url 'https://dl.dropboxusercontent.com/s/tvhxrghpbrv94qr/video_concat.mp4?dl=0' --file_name 'video_concat.mp4'
