@@ -4,6 +4,8 @@ from hash import Hash
 from database import Database
 import time 
 import argparse
+from video import ShowVideo
+
 
 parser=argparse.ArgumentParser()
 parser.add_argument('--url',type=str,required=False,help='link to download')
@@ -12,19 +14,7 @@ parser.add_argument('--file_name',type=str,required=False)
 parser.add_argument('--file_name_saved',type=str,required=False)
 arg=parser.parse_args()
 
-class show_video(threading.Thread):
-    def __init__(self, path_file):
-        threading.Thread.__init__(self)
-        self.path_file = path_file
 
-    def run(self):
-        media = vlc.MediaPlayer('/home/winner/Desktop/FileAuthentication/a.mp4')
-        media.play()
-#         while (True):
-#             time.sleep(1)
-#             if not media.is_playing():
-#                 media.stop()
-#                 break
 
 
 class Security:
@@ -46,7 +36,7 @@ class Security:
                 fw.write(chunk_block)
                 #fw.close()
                 if i == 2000:
-                    thread = show_video('/home/winner/Desktop/FileAuthentication/a.mp4')
+                    thread = ShowVideo('/home/winner/Desktop/FileAuthentication/a.mp4')
                     thread.start()
                 hash_code_block=chunk[-32:]
             else:
