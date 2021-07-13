@@ -5,7 +5,7 @@ from database import Database
 import time 
 import argparse
 from video import ShowVideo
-
+from elgamal.elgamal import Elgamal,CipherText
 
 parser=argparse.ArgumentParser()
 parser.add_argument('--url',type=str,required=False,help='link to download')
@@ -23,7 +23,9 @@ class Security:
         self.hash=Hash()
         self.chunk_size=self.hash.size_block+32
     
-    def download(self,url,h0):
+    def download(self,url,a,b,private_key):
+        cipher=CipherText(a,b)
+        h0=bytes(Elgamal.decrypt(cipher,private_key))
         response=requests.get(url,stream=True)
         hash_code_block=h0
         print(h0)
