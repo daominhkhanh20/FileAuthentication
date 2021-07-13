@@ -6,13 +6,14 @@ import time
 import argparse
 from video import ShowVideo
 from elgamal.elgamal import Elgamal,CipherText
+import os 
 
-parser=argparse.ArgumentParser()
-parser.add_argument('--url',type=str,required=False,help='link to download')
-parser.add_argument('--path_file',type=str,required=False,help='path to file concat')
-parser.add_argument('--file_name',type=str,required=False)
-parser.add_argument('--file_name_saved',type=str,required=False)
-arg=parser.parse_args()
+# parser=argparse.ArgumentParser()
+# parser.add_argument('--url',type=str,required=False,help='link to download')
+# parser.add_argument('--path_file',type=str,required=False,help='path to file concat')
+# parser.add_argument('--file_name',type=str,required=False)
+# parser.add_argument('--file_name_saved',type=str,required=False)
+# arg=parser.parse_args()
 
 
 
@@ -22,14 +23,14 @@ class Security:
         self.database=Database()
         self.hash=Hash()
         self.chunk_size=self.hash.size_block+32
+        self.path=os.getcwd()
     
     def download(self,url,a,b,private_key):
         cipher=CipherText(a,b)
         h0=bytes(Elgamal.decrypt(cipher,private_key))
         response=requests.get(url,stream=True)
         hash_code_block=h0
-        print(h0)
-        fw = open('/home/winner/Desktop/FileAuthentication/a.mp4', 'wb')
+        fw = open(os.path.join(self.path,'a.mp4'), 'wb')
         for i,chunk in enumerate(response.iter_content(chunk_size=self.chunk_size)):
             if(hash_code_block==self.hash.hash_code(chunk)):
                 chunks = []
@@ -38,7 +39,7 @@ class Security:
                 fw.write(chunk_block)
                 #fw.close()
                 if i == 2000:
-                    thread = ShowVideo('/home/winner/Desktop/FileAuthentication/a.mp4')
+                    thread = ShowVideo(os.path.join(self.path,'a.mp4'))
                     thread.start()
                 hash_code_block=chunk[-32:]
             else:
@@ -70,21 +71,21 @@ class Security:
 
         return True
 
-if __name__=='__main__':
-    check=Security()
-    start_time=time.time()
-    if arg.path_file is not None:
-        if check.check_file(arg.path_file,arg.file_name_saved):
-            print("Success")
-        else:
-            print("Error")
-    elif arg.url is not None:
-        h0=check.database.get_h0(arg.file_name)
-        if check.download(arg.url,h0) is True:
-            print("Success")
-        else:
-            print("Failed")
-    print(f"Time:{time.time()-start_time}")
+# if __name__=='__main__':
+#     check=Security()
+#     start_time=time.time()
+#     if arg.path_file is not None:
+#         if check.check_file(arg.path_file,arg.file_name_saved):
+#             print("Success")
+#         else:
+#             print("Error")
+#     elif arg.url is not None:
+#         h0=check.database.get_h0(arg.file_name)
+#         if check.download(arg.url,h0) is True:
+#             print("Success")
+#         else:
+#             print("Failed")
+#     print(f"Time:{time.time()-start_time}")
 
 '''
 python3 check1.py --url 'https://dl.dropboxusercontent.com/s/tvhxrghpbrv94qr/video_concat.mp4?dl=0' --file_name 'video_concat.mp4'
