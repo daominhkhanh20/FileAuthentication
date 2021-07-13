@@ -29,7 +29,6 @@ class Hash:
         self.hash_function.update(message)
         return self.hash_function.digest()
 
-    
     def hash_file(self,database,path_video):
         with open(path_video,'rb') as file:
             data=file.read()
@@ -59,7 +58,7 @@ class Hash:
         with open(new_path,'wb') as file:
             file.write(video_data)
         
-        #database.insert_file(file_name=file_name,file_path=new_path,h0=hash_code_block)
+        database.insert_file(file_name=file_name,file_path=new_path,h0=hash_code_block)
 
         
 # hash=Hash()

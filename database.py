@@ -62,9 +62,3 @@ class Database:
         if self.connection.is_connected():
             self.connection.close()
             print("Closed success")
-
-# db=Database()
-# temp=os.urandom(10)
-# print(temp)
-# db.insert_h0(os.urandom(10),'cc.txt')
-# print(db.get_h0('123.txt'))

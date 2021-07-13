@@ -144,7 +144,7 @@ class MainWindow(QMainWindow):
         navigate_mozarella_action.triggered.connect(self.navigate_mozarella)
         help_menu.addAction(navigate_mozarella_action)
 
-        self.add_new_tab(QUrl('https://github.com/tech35'), 'Homepage')
+        self.add_new_tab(QUrl('https://github.com/daominhkhanh20'), 'Homepage')
 
         self.show()
 
@@ -157,9 +157,6 @@ class MainWindow(QMainWindow):
         check = Security()
         video_name = self.urlbar.text().split("=")[1]
         server = self.urlbar.text().split("video")[0]
-        # print(video_name)
-        # print("\n\n\n")
-        # print(server + "hashcode?publickey="+str(self.pb.p)+"_"+str(self.pb.g)+"_"+str(self.pb.y)+"&video_name="+video_name)
         response_h0 = requests.get(server + "hashcode?publickey="+str(self.pb.p)+"_"+str(self.pb.g)+"_"+str(self.pb.y)+"&video_name="+video_name,stream=True)
         res = json.loads(response_h0.text)
         a, b = res["a"], res["b"]
@@ -280,3 +277,4 @@ app.setOrganizationDomain("Google.com")
 window = MainWindow()
 
 app.exec_()
+#https://safe-cove-48036.herokuapp.com/
