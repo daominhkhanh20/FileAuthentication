@@ -2,8 +2,7 @@ from Crypto.Hash import SHA256
 from database import Database
 import time 
 from elgamal.elgamal import Elgamal
-
-from elgamal.elgamal import Elgamal
+import os 
 
 class ElgamalCrypto:
     def __init__(self,n_bits=128):
@@ -52,7 +51,7 @@ class Hash:
         file_name=path_video[path_video.rfind('/')+1:]
         name=file_name[:file_name.find(".")]
         file_name=name+'_concat.mp4'
-        new_path='/media/daominhkhanh/D:/Data/Project/FileAuthentication/VideoConcat/'+file_name
+        new_path=os.getcwd()+'/VideoConcat/'+file_name
         video_data.reverse()
         video_data=b''.join(video_data)
         with open(new_path,'wb') as file:
@@ -64,5 +63,5 @@ class Hash:
 # hash=Hash()
 # db=Database()
 # start_time=time.time()
-# hash.hash_file(db,'/media/daominhkhanh/D:/Data/Project/FileAuthentication/birth_day_error.mp4')
+# hash.hash_file(db,os.getcwd()+'/Video/video.mp4')
 # print("{}s".format(time.time()-start_time))

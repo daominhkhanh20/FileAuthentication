@@ -1,10 +1,10 @@
-from mysql.connector.constants import ServerCmd
 import requests
 from hash import Hash
 from database import Database
 from video import ShowVideo
 from elgamal.elgamal import Elgamal,CipherText
 import os 
+from base64 import decodebytes
 
 class Security:
     def __init__(self):
@@ -15,22 +15,22 @@ class Security:
     
     def download(self,url,a,b,private_key):
         cipher=CipherText(a,b)
-        h0=bytes(Elgamal.decrypt(cipher,private_key))
-        # print(h0)
-        # print(url)
+        h0_str=bytes(Elgamal.decrypt(cipher,private_key))
+        h0_str=h0_str.decode('utf-8')
+        h0=decodebytes(h0_str.encode('utf-8'))
+        
         response=requests.get(url,stream=True)
         hash_code_block=h0
-        fw = open(os.path.join(self.path,'a.mp4'), 'wb')
+        path=os.getcwd()
+        fw = open(path+'/birthday.mp4', 'wb')
         for i,chunk in enumerate(response.iter_content(chunk_size=self.chunk_size)):
-            print(len(chunk))
             if(hash_code_block==self.hash.hash_code(chunk)):
                 chunks = []
                 chunks.append(chunk[:992])
                 chunk_block = b''.join(chunks)
                 fw.write(chunk_block)
-                #fw.close()
                 if i == 2000:
-                    thread = ShowVideo(os.path.join(self.path,'a.mp4'))
+                    thread = ShowVideo(path+'birthday.mp4')
                     thread.start()
                 hash_code_block=chunk[-32:]
             else:

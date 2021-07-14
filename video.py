@@ -1,6 +1,7 @@
 import threading
 import vlc
 import time
+import os
 
 
 class ShowVideo(threading.Thread):
@@ -9,7 +10,7 @@ class ShowVideo(threading.Thread):
         self.path_file = path_file
 
     def run(self):
-        media = vlc.MediaPlayer('/home/winner/Desktop/FileAuthentication/a.mp4')
+        media = vlc.MediaPlayer(os.getcwd()+'/birthday.mp4')
         media.play()
         while (True):
             time.sleep(1)

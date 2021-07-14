@@ -144,7 +144,7 @@ class MainWindow(QMainWindow):
         navigate_mozarella_action.triggered.connect(self.navigate_mozarella)
         help_menu.addAction(navigate_mozarella_action)
 
-        self.add_new_tab(QUrl('https://github.com/daominhkhanh20'), 'Homepage')
+        self.add_new_tab(QUrl('https://google.com'), 'Homepage')
 
         self.show()
 
@@ -160,7 +160,9 @@ class MainWindow(QMainWindow):
         response_h0 = requests.get(server + "hashcode?publickey="+str(self.pb.p)+"_"+str(self.pb.g)+"_"+str(self.pb.y)+"&video_name="+video_name,stream=True)
         res = json.loads(response_h0.text)
         a, b = res["a"], res["b"]
-        if check.download(server + "returnvideo?video_name=" + video_name,a,b,self.pv) is True:
+        reponse_link_download = requests.get(server+"returnvideo?video_name=" + video_name)
+        link_download = reponse_link_download.text
+        if check.download(link_download,a,b,self.pv) is True:
             print("Success")
         else:
             print("Failed")
