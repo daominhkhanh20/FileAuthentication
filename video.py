@@ -14,5 +14,4 @@ class ShowVideo(threading.Thread):
         while (True):
             time.sleep(1)
             if not media.is_playing():
-                media.stop()
                 break
