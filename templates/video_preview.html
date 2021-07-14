@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <title>Video Downloader</title>
+    </header>
+    <body>
+        <!-- Boostrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.css">
+        <link rel="stylesheet" href="../css/video_preview.css">
+
+        <!-- Header -->
+        <div class="jumbotron text-center">
+            <h1>VIDEO DOWNLOADER</h1>
+        </div>
+
+        <!-- Preview -->
+        <div class="block">
+            <h1>
+                {{video.name}}
+            </h1>
+        </div>
+        <div class="block">
+            <video with="640" height="480" controls>
+                <source src= "{{video.preview_link}}" type="video/mp4">
+
+            </video>
+        </div>
+    </body>
+</html>
