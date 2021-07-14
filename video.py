@@ -10,9 +10,10 @@ class ShowVideo(threading.Thread):
         self.path_file = path_file
 
     def run(self):
-        media = vlc.MediaPlayer(os.getcwd()+'/birthday.mp4')
-        media.play()
+        self.media = vlc.MediaPlayer(os.getcwd()+'/birthday.mp4')
+        self.media.play()
         while (True):
             time.sleep(1)
-            if not media.is_playing():
+            if not self.media.is_playing():
+                self.media.stop()
                 break

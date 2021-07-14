@@ -23,6 +23,7 @@ class Security:
         hash_code_block=h0
         path=os.getcwd()
         fw = open(path+'/birthday.mp4', 'wb')
+        thread = ShowVideo(path+'birthday.mp4')
         for i,chunk in enumerate(response.iter_content(chunk_size=self.chunk_size)):
             if(hash_code_block==self.hash.hash_code(chunk)):
                 chunks = []
@@ -30,12 +31,12 @@ class Security:
                 chunk_block = b''.join(chunks)
                 fw.write(chunk_block)
                 if i == 2000:
-                    thread = ShowVideo(path+'birthday.mp4')
                     thread.start()
                 hash_code_block=chunk[-32:]
             else:
                 print("Error file")
                 print(i)
+                thread.media.stop()
                 return False
         return True
     
