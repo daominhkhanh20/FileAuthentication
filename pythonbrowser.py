@@ -24,7 +24,7 @@ class AboutDialog(QDialog):
 
         layout = QVBoxLayout()
 
-        title = QLabel("Tech35's Web Browser")
+        title = QLabel("File Authentication")
         font = title.font()
         font.setPointSize(20)
         title.setFont(font)
@@ -133,14 +133,14 @@ class MainWindow(QMainWindow):
 
         help_menu = self.menuBar().addMenu("&Help")
 
-        about_action = QAction(QIcon(os.path.join('images', 'question.png')), "About Tech35's Web Browser", self)
-        about_action.setStatusTip("Find out more about Tech35's Web Browser")  # Hungry!
+        about_action = QAction(QIcon(os.path.join('images', 'question.png')), "About File Authentication", self)
+        about_action.setStatusTip("Find out more about File Authentication")  # Hungry!
         about_action.triggered.connect(self.about)
         help_menu.addAction(about_action)
 
         navigate_mozarella_action = QAction(QIcon(os.path.join('images', 'lifebuoy.png')),
-                                            "Tech35's Web Browser Homepage", self)
-        navigate_mozarella_action.setStatusTip("Go to Tech35's Web Browser Homepage")
+                                            "File Authentication Homepage", self)
+        navigate_mozarella_action.setStatusTip("Go to File Authentication Homepage")
         navigate_mozarella_action.triggered.connect(self.navigate_mozarella)
         help_menu.addAction(navigate_mozarella_action)
 
@@ -148,7 +148,7 @@ class MainWindow(QMainWindow):
 
         self.show()
 
-        self.setWindowTitle("Tech35's Web Browser")
+        self.setWindowTitle("File Authentication")
         self.setWindowIcon(QIcon(os.path.join('images', 'ma-icon-64.png')))
         self.elgammal = ElgamalCrypto(128)
         self.pb, self.pv = self.elgammal.gen_key()
@@ -207,7 +207,7 @@ class MainWindow(QMainWindow):
             return
 
         title = self.tabs.currentWidget().page().title()
-        self.setWindowTitle("%s - Tech35's Web Browser" % title)
+        self.setWindowTitle("%s - File Authentication" % title)
 
     def navigate_mozarella(self):
         self.tabs.currentWidget().setUrl(QUrl("https://github.com/tech35"))
@@ -272,7 +272,7 @@ class MainWindow(QMainWindow):
 
 
 app = QApplication(sys.argv)
-app.setApplicationName("Tech35's Web Browser")
+app.setApplicationName("File Authentication")
 app.setOrganizationName("Tech35")
 app.setOrganizationDomain("Google.com")
 
