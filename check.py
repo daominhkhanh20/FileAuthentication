@@ -39,20 +39,20 @@ class Security:
                 return False
         return True
     
-    def check_file(self,path_file,file_name_saved):
-        file_name=path_file[path_file.rfind('/')+1:]
-        h0=self.database.get_h0(file_name)
-        with open(path_file,'rb') as file:
-            data=file.read()
-        n_blocks=len(data)//self.chunk_size+1
-        hash_code_block=h0
-        chunk=[]
-        for i in range(n_blocks):
-            temp=data[self.chunk_size*i:min(len(data),self.chunk_size*(i+1))]
-            if hash_code_block==self.hash.hash_code(temp):
-                hash_code_block=temp[-32:]
-                chunk.append(temp[:992])
-            else:
-                return False
+    # def check_file(self,path_file,file_name_saved):
+    #     file_name=path_file[path_file.rfind('/')+1:]
+    #     h0=self.database.get_h0(file_name)
+    #     with open(path_file,'rb') as file:
+    #         data=file.read()
+    #     n_blocks=len(data)//self.chunk_size+1
+    #     hash_code_block=h0
+    #     chunk=[]
+    #     for i in range(n_blocks):
+    #         temp=data[self.chunk_size*i:min(len(data),self.chunk_size*(i+1))]
+    #         if hash_code_block==self.hash.hash_code(temp):
+    #             hash_code_block=temp[-32:]
+    #             chunk.append(temp[:992])
+    #         else:
+    #             return False
 
-        return True
+    #     return True
