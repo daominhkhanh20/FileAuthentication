@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
+from emgammalencrypt import ElgamalCrypto
+from elgamal.elgamal import PublicKey
 
 app = Flask(__name__, static_url_path='')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -9,12 +11,14 @@ app.config["secret_key"] = "secret_key"
 
 # Initialize the database
 db = SQLAlchemy(app)
+server_encrypt = ElgamalCrypto(128)
+pb, pv = server_encrypt.gen_key()
 
 #Create db model
 class Video(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
-    hash0 = db.Column(db.LargeBinary(400), nullable=False)
+    hash0 = db.Column(db.String(400), nullable=False)
     preview_link = db.Column(db.String(400), nullable=False)
     download_link = db.Column(db.String(400), nullable=False)
 
@@ -25,7 +29,6 @@ class Video(db.Model):
 #Home page
 @app.route('/')
 def hello_world():
-    db.create_all()
     videos = Video.query.order_by(Video.id)
     return render_template('video_list.html', videos=videos)
 
@@ -44,6 +47,28 @@ def render_video():
     video_name = request.args.get("video_name")
     video = Video.query.filter_by(name=video_name).first()
     return render_template("video_preview.html", video=video)
+
+#Return h0
+@app.route('/hashcode')
+def hashcode():
+    publickey = request.args.get("publickey")
+    p, g, y = publickey.split("_")
+    p = int(p)
+    g = int(g)
+    y = int(y)
+    key = PublicKey(p, g, y)
+    video_name = request.args.get("video_name")
+    video = Video.query.filter_by(name=video_name).first()
+    print(type(video.hash0))
+    hash = bytes(video.hash0, 'utf-8')
+    ciphertext = server_encrypt.encode(hash, key)
+    return {"a":ciphertext.a, "b":ciphertext.b}
+
+@app.route('/returnvideo')
+def video():
+    video_name = request.args.get("video_name")
+    video = Video.query.filter_by(name=video_name).first()
+    return video.download_link
 
 #Test return binary file
 @app.route('/returnfile')
